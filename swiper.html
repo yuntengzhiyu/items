@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        #box{
+            width: 520px;
+            height: 352px;
+            background: black;
+            margin: 100px auto;
+           position: relative;
+            overflow: hidden;
+        }
+        #imgList{
+            position: absolute;
+            left: 0;
+            list-style: none;
+        }
+        #imgList li{
+            background: yellow;
+            float: left;
+            padding: 10px;
+        }
+        #nav{
+            position: absolute;
+            bottom: 10px;
+        }
+        #nav a{
+            background: red;
+            float: left;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-left: 20px;
+        }
+        #nav a:hover{
+            background-color: black !important;
+        }
+    </style>
+    <script type="text/javascript" src="js/tools.js"></script>
+    <script>
+        window.onload = function(){
+            var box = document.getElementById("box");
+            var imgList = document.getElementById("imgList");
+            var nav = document.getElementById("nav");
+            var imgArr = document.getElementsByTagName("img");
+            var allA = document.getElementsByTagName("a");
+
+            var index = 0;
+            var time;
+
+
+
+            imgList.style.width = imgArr.length * 520 + "px";
+            nav.style.left = (box.offsetWidth - nav.offsetWidth) / 2 + "px";
+            autoChange();
+
+            for(var i = 0; i < allA.length; ++i){
+
+                allA[i].index = i;
+                allA[i].onclick = function(){
+                    clearInterval(time);
+
+                    index = this.index;
+                    setA();
+                    move(imgList, "left", -520*index, 20, function(){
+                        autoChange();
+                    })
+                }
+            }
+            function setA(){
+                if(index >= imgArr.length - 1){
+                    index = 0;
+                    imgList.style.left = 0 + "px";
+                }
+                for(var i = 0 ; i < allA.length; ++i ){
+                    allA[i].style.backgroundColor = "red";
+                }
+                allA[index].style.backgroundColor = "black";
+            }
+            function autoChange(){
+                 time = setInterval(function () {
+                    index++;
+                    index = index % imgArr.length;
+                    move(imgList, "left", -520 * index, 20, function(){
+                          setA();
+                    });
+                }, 1000);
+            }
+        }
+    </script>
+</head>
+<body>
+    <div id="box">
+        <ul id="imgList">
+            <li><img src="1.jpg" alt=""></li>
+            <li><img src="2.jpg" alt=""></li>
+            <li><img src="3.jpg" alt=""></li>
+            <li><img src="4.jpg" alt=""></li>
+            <li><img src="5.jpg" alt=""></li>
+            <li><img src="1.jpg" alt=""></li>
+        </ul>
+        <div id="nav">
+            <a href="#" style="background-color: black;"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+        </div>
+    </div>
+</body>
+</html>
